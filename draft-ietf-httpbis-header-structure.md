@@ -255,7 +255,7 @@ The ABNF for Inner Lists is:
 
 ~~~ abnf
 inner-list    = "(" *SP [ sf-item *( 1*SP sf-item ) *SP ] ")"
-                parameters
+                *parameters
 ~~~
 
 Inner Lists are denoted by surrounding parenthesis, and have their values delimited by one or more spaces. A field whose value is defined as a List of Inner Lists of Strings could look like:
@@ -282,7 +282,7 @@ Parameters are an ordered map of key-value pairs that are associated with an Ite
 The ABNF for Parameters is:
 
 ~~~ abnf
-parameters    = *( ";" *SP parameter )
+parameters    = ";" *SP parameter
 parameter     = param-name [ "=" param-value ]
 param-name    = key
 key           = ( lcalpha / "*" )
@@ -318,7 +318,7 @@ The ABNF for Dictionaries is:
 
 ~~~ abnf
 sf-dictionary  = dict-member *( OWS "," OWS dict-member )
-dict-member    = member-name [ "=" member-value ]
+dict-member    = member-name ( ("=" member-value) / *parameters )
 member-name    = key
 member-value   = sf-item / inner-list
 ~~~
@@ -380,7 +380,7 @@ An Item can be a Integer ({{integer}}), Decimal ({{decimal}}), String ({{string}
 The ABNF for Items is:
 
 ~~~ abnf
-sf-item   = bare-item parameters
+sf-item   = bare-item *parameters
 bare-item = sf-integer / sf-decimal / sf-string / sf-token
             / sf-binary / sf-boolean
 ~~~
